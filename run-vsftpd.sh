@@ -65,5 +65,10 @@ else
     /usr/bin/ln -sf /dev/stdout $LOG_FILE
 fi
 
+# Pipe-duplicate logs to stdout
+touch /var/log/vsftpd.log
+chmod 600 /var/log/vsftpd.log
+bash -c 'tail -F /var/log/vsftpd.log >> /proc/1/fd/1' &
+
 # Run vsftpd:
 &>/dev/null /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
